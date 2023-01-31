@@ -3,26 +3,22 @@ import "./App.css"
 import React from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { NavigationBar } from "./common/NavigationBar"
-import Container from "react-bootstrap/Container"
-
-const Home = () => {
-  return (
-    <div>
-      <h1>Home Page</h1>
-      <Container>
-        <h3>Address test with Redux</h3>
-      </Container>
-    </div>
-  )
-}
+import { Home } from "./features/home/Home"
+import { AddressList } from "./features/address/AddressList"
+import { AddressCard } from "./features/address/AddressCard"
 
 function App() {
   return (
     <BrowserRouter>
       <div className="app">
-        <NavigationBar />
         <Routes>
-          <Route path="/" element={<Home />}></Route>
+          <Route path="/" element={<Home />}>
+            <Route path="addressList" element={<AddressList />}>
+              <Route path=":addressId/card" element={<AddressCard />} />
+            </Route>
+            <Route path="new" />
+            {/* <Route index element={<Home />} /> */}
+          </Route>
         </Routes>
       </div>
     </BrowserRouter>
