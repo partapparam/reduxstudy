@@ -1,0 +1,16 @@
+import axios, { AxiosError } from "axios"
+const baseURL = "http://localhost:3005/api/addresses"
+
+const getAllAddresses = () => {
+  return axios.get(`${baseURL}/`)
+}
+
+const getAddressById = (id) => {
+  return axios.get(`${baseURL}/address/${id}`)
+}
+
+const newAddress = (body) => {
+  return axios.post(`${baseURL}/address/new`, body)
+}
+
+export const addressService = { getAllAddresses, getAddressById, newAddress }
