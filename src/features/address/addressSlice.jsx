@@ -7,11 +7,12 @@ const addressesSlice = createSlice({
   reducers: {
     //   Add new address to existing Address Array
     appendAddress(state, action) {
-      state.concat(action.payload)
+      return state.concat(action.payload)
     },
     updateAddress(state, action) {},
+    // set addresses after GET Request
     setAddresses(state, action) {
-      state.concat(action.payload)
+      return state.concat(action.payload)
     },
   },
 })
@@ -21,11 +22,8 @@ export const { appendAddress, updateAddress, setAddresses } =
 
 export const getAllAddresses = () => {
   return async (dispatch, getState) => {
-    const stateBefore = getState()
-    console.log("state Before", stateBefore)
     const addresses = await addressService.getAllAddresses()
-    console.log(addresses.data)
-    // dispatch(setAddresses(addresses.data))
+    dispatch(setAddresses(addresses.data.data))
   }
 }
 

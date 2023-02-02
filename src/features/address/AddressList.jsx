@@ -12,18 +12,19 @@ export const AddressList = () => {
     dispatch(getAllAddresses())
   }, [])
   const addresses = useSelector((state) => state.addresses)
-  console.log(addresses)
+
   return (
     <Container>
       <h3>This is the address list</h3>
       <Container>
         <ul>
-          <li>
-            <Link to="1/card">Address 1</Link>
-          </li>
-          <li>
-            <Link to="2/card">Address 2</Link>
-          </li>
+          {addresses.map((a) => {
+            return (
+              <li>
+                <Link to={a.address_id + "/card"}>{a.street_address}</Link>
+              </li>
+            )
+          })}
         </ul>
       </Container>
       <section>
