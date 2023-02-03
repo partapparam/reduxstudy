@@ -7,7 +7,6 @@ import { getAllAddresses } from "./addressSlice"
 
 export const AddressList = () => {
   const dispatch = useDispatch()
-
   useEffect(() => {
     dispatch(getAllAddresses())
   }, [])
@@ -20,7 +19,7 @@ export const AddressList = () => {
         <ul>
           {addresses.map((a) => {
             return (
-              <li>
+              <li key={a.address_id}>
                 <Link to={a.address_id + "/card"}>{a.street_address}</Link>
               </li>
             )

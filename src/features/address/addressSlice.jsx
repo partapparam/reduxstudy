@@ -12,7 +12,7 @@ const addressesSlice = createSlice({
     updateAddress(state, action) {},
     // set addresses after GET Request
     setAddresses(state, action) {
-      return state.concat(action.payload)
+      return { ...state.addresses, addresses: action.payload }
     },
   },
 })
@@ -22,6 +22,8 @@ export const { appendAddress, updateAddress, setAddresses } =
 
 export const getAllAddresses = () => {
   return async (dispatch, getState) => {
+    const beforeState = getState()
+    if (beforeState.addresses && beforeState.addresses.length) return
     const addresses = await addressService.getAllAddresses()
     dispatch(setAddresses(addresses.data.data))
   }
