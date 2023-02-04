@@ -11,26 +11,26 @@ export const AddressList = () => {
     dispatch(getAllAddresses())
   }, [])
   const addresses = useSelector(selectAllAddresses)
-  console.log(addresses)
-  // const content =
-  //   addresses.length === 0 ? (
-  //     <h2>There is nothing to show here</h2>
-  //   ) : (
-  //     <ul>
-  //       {addresses.map((a) => {
-  //         return (
-  //           <li key={a.address_id}>
-  //             <Link to={a.address_id + "/card"}>{a.street_address}</Link>
-  //           </li>
-  //         )
-  //       })}
-  //     </ul>
-  //   )
+
+  const content =
+    addresses.length === 0 ? (
+      <h2>There is nothing to show here, search for an Address</h2>
+    ) : (
+      <ul>
+        {addresses.map((a) => {
+          return (
+            <li key={a.address_id}>
+              <Link to={a.address_id + "/card"}>{a.street_address}</Link>
+            </li>
+          )
+        })}
+      </ul>
+    )
 
   return (
     <Container>
       <h3>This is the address list</h3>
-      {/* <Container>{content}</Container> */}
+      <Container>{content}</Container>
       <section>
         <Outlet />
       </section>

@@ -24,11 +24,12 @@ export const { appendAddress, updateAddress, setAddresses } =
 
 // Selectors
 export const selectAllAddresses = (state) => state.addresses.cards
-
+// Make sure addressID is converted to number
 export const selectAddressById = (state, addressId) => {
-  state.addresses.cards.find((ad) => ad.address_id === addressId)
+  return state.addresses.cards.find((ad) => ad.address_id === +addressId)
 }
 
+// async methods
 export const getAllAddresses = () => {
   return async (dispatch, getState) => {
     // const beforeState = getState()
@@ -39,4 +40,12 @@ export const getAllAddresses = () => {
   }
 }
 
+export const postNewAddress = (body) => {
+  return async (dispatch, getState) => {
+    const response = await addressService.newAddress(body)
+    console.log(response)
+  }
+}
+
+// Export Reducer
 export default addressesSlice.reducer

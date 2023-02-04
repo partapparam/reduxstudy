@@ -6,7 +6,7 @@ const getAllAddresses = () => {
 }
 
 const getAddressById = (id) => {
-  return axios.get(`${baseURL}/address/${id}`)
+  return axios.get(`${baseURL}/${id}`)
 }
 
 const newAddress = (body) => {

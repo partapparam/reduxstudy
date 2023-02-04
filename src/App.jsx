@@ -2,10 +2,10 @@ import logo from "./logo.svg"
 import "./App.css"
 import React from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { NavigationBar } from "./common/NavigationBar"
 import { Home } from "./features/home/Home"
 import { AddressList } from "./features/address/AddressList"
 import { AddressCard } from "./features/address/AddressCard"
+import { AddressForm } from "./features/address/AddressForm"
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
             <Route path="addressList" element={<AddressList />}>
               <Route path=":addressId/card" element={<AddressCard />} />
             </Route>
-            <Route path="new" />
+            <Route path="new" element={<AddressForm />} />
             {/* <Route index element={<Home />} /> */}
           </Route>
         </Routes>
