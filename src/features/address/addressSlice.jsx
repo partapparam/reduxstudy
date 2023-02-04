@@ -3,16 +3,18 @@ import { addressService } from "./addressService"
 
 const addressesSlice = createSlice({
   name: "addresses",
-  initialState: [],
+  initialState: { cards: [], status: "string" },
   reducers: {
     //   Add new address to existing Address Array
     appendAddress(state, action) {
-      return state.concat(action.payload)
+      // return state.concat(action.payload)
     },
     updateAddress(state, action) {},
     // set addresses after GET Request
     setAddresses(state, action) {
-      return { ...state.addresses, addresses: action.payload }
+      // console.log("Here is the state", state)
+      console.log("here is the action", action.payload)
+      return { ...state, cards: action.payload }
     },
   },
 })
@@ -20,12 +22,20 @@ const addressesSlice = createSlice({
 export const { appendAddress, updateAddress, setAddresses } =
   addressesSlice.actions
 
+// Selectors
+export const selectAllAddresses = (state) => state.addresses.cards
+
+export const selectAddressById = (state, addressId) => {
+  state.addresses.cards.find((ad) => ad.address_id === addressId)
+}
+
 export const getAllAddresses = () => {
   return async (dispatch, getState) => {
-    const beforeState = getState()
-    if (beforeState.addresses && beforeState.addresses.length) return
-    const addresses = await addressService.getAllAddresses()
-    dispatch(setAddresses(addresses.data.data))
+    // const beforeState = getState()
+    // if (beforeState.addresses && beforeState.addresses.length) return
+    const response = await addressService.getAllAddresses()
+    console.log(response)
+    dispatch(setAddresses(response.data.data))
   }
 }
 
