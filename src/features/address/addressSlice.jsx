@@ -1,9 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { addressService } from "./addressService"
+
+const initialState = { cards: [], status: "idle", error: null }
+
+export const fetchAddresses = createAsyncThunk(
+  "addresses/fetchAddresses",
+  async () => {
+    try {
+      const response = await addressService.getAllAddresses()
+      console.log(response.data)
+      return response.data.data
+    } catch (error) {
+      console.log("error fetching the results", error)
+    }
+  }
+)
 
 const addressesSlice = createSlice({
   name: "addresses",
-  initialState: { cards: [], status: "string" },
+  initialState,
   reducers: {
     //   Add new address to existing Address Array
     appendAddress(state, action) {
@@ -17,6 +32,20 @@ const addressesSlice = createSlice({
       return { ...state, cards: action.payload }
     },
   },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchAddresses.pending, (state, action) => {
+        state.status = "loading"
+      })
+      .addCase(fetchAddresses.fulfilled, (state, action) => {
+        state.status = "success"
+        state.cards = state.cards.concat(action.payload)
+      })
+      .addCase(fetchAddresses.rejected, (state, action) => {
+        state.status = "failed"
+        state.error = action.error.message
+      })
+  },
 })
 
 export const { appendAddress, updateAddress, setAddresses } =
@@ -27,17 +56,6 @@ export const selectAllAddresses = (state) => state.addresses.cards
 // Make sure addressID is converted to number
 export const selectAddressById = (state, addressId) => {
   return state.addresses.cards.find((ad) => ad.address_id === +addressId)
-}
-
-// async methods
-export const getAllAddresses = () => {
-  return async (dispatch, getState) => {
-    // const beforeState = getState()
-    // if (beforeState.addresses && beforeState.addresses.length) return
-    const response = await addressService.getAllAddresses()
-    console.log(response)
-    dispatch(setAddresses(response.data.data))
-  }
 }
 
 export const postNewAddress = (body) => {

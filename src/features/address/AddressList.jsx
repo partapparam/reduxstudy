@@ -3,13 +3,17 @@ import Container from "react-bootstrap/Container"
 import { Outlet, Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import { getAllAddresses, selectAllAddresses } from "./addressSlice"
+import { selectAllAddresses, fetchAddresses } from "./addressSlice"
 
 export const AddressList = () => {
   const dispatch = useDispatch()
+  const addressesStatus = useSelector((state) => state.addresses.status)
+  // only fetch addresses once there is a change or the status is idle, otherwise, it will run everytime the component rerenders.
   useEffect(() => {
-    dispatch(getAllAddresses())
-  }, [])
+    if (addressesStatus === "idle") {
+      dispatch(fetchAddresses())
+    }
+  }, [addressesStatus, dispatch])
   const addresses = useSelector(selectAllAddresses)
 
   const content =
