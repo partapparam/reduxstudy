@@ -20,16 +20,18 @@ export const AddressForm = () => {
     console.log("can save", canSave)
     event.preventDefault()
     if (canSave) {
-      console.log("can save")
       try {
         setAddRequestStatus("pending")
         await dispatch(postNewAddress({ streetAddress, zipcode })).unwrap()
+        console.log("this does not run")
         setStreetAddress("")
-        setZipcode(0)
+        setZipcode("")
       } catch (error) {
-        console.error("Failed to save address", error)
+        console.log("This does run")
+        console.log("Failed to save address", error)
       } finally {
         setAddRequestStatus("idle")
+        console.log("changing the status back after request")
       }
     }
   }
@@ -57,7 +59,7 @@ export const AddressForm = () => {
                 onChange={(e) => setZipcode(e.target.value)}
               ></Form.Control>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button disabled={!canSave} variant="primary" type="submit">
               Save Address
             </Button>
           </Form>

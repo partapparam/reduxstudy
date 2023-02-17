@@ -10,7 +10,8 @@ const getAddressById = (id) => {
 }
 
 const newAddress = (body) => {
-  return axios.post(`${baseURL}/address/new`, body)
+  // return axios.post(`${baseURL}/address/new`, body)
+  throw new Error("this failed")
 }
 
 export const addressService = { getAllAddresses, getAddressById, newAddress }

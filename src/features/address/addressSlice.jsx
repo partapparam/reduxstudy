@@ -25,6 +25,7 @@ export const postNewAddress = createAsyncThunk(
       return response.data
     } catch (error) {
       console.log("error while saving address", error)
+      throw new Error(error)
     }
   }
 )
@@ -60,6 +61,10 @@ const addressesSlice = createSlice({
       })
       .addCase(postNewAddress.fulfilled, (state, action) => {
         state.cards.push(action.payload)
+      })
+      .addCase(postNewAddress.rejected, (state, action) => {
+        state.status = "failed"
+        console.log("the request failed")
       })
   },
 })
