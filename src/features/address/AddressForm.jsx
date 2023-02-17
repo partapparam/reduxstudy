@@ -10,14 +10,17 @@ import { useDispatch, useSelector } from "react-redux"
 export const AddressForm = () => {
   const dispatch = useDispatch()
   const [streetAddress, setStreetAddress] = useState("")
-  const [zipcode, setZipcode] = useState(0)
+  const [zipcode, setZipcode] = useState("")
   const [addRequestStatus, setAddRequestStatus] = useState("idle")
 
   const canSave =
     [streetAddress, zipcode].every(Boolean) && addRequestStatus === "idle"
 
-  const onSaveAddressClicked = async () => {
+  const onSaveAddressClicked = async (event) => {
+    console.log("can save", canSave)
+    event.preventDefault()
     if (canSave) {
+      console.log("can save")
       try {
         setAddRequestStatus("pending")
         await dispatch(postNewAddress({ streetAddress, zipcode })).unwrap()
@@ -36,23 +39,25 @@ export const AddressForm = () => {
       <h1 className="mb-auto">New Address Form</h1>
       <Row className="justify-content-md-center">
         <Col lg="6">
-          <Form className="mb-auto">
+          <Form className="mb-auto" onSubmit={onSaveAddressClicked}>
             <Form.Group className="mb-3" controlId="addressStreet">
               <Form.Label className="label">Street Address</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Street Address"
+                value={streetAddress}
+                onChange={(e) => setStreetAddress(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group className="mb-3" controlId="zipcode">
               <Form.Label className="label">Zip Code</Form.Label>
-              <Form.Control type="number" placeholder="Zip Code"></Form.Control>
+              <Form.Control
+                type="number"
+                placeholder="00000"
+                value={zipcode}
+                onChange={(e) => setZipcode(e.target.value)}
+              ></Form.Control>
             </Form.Group>
-            <Button
-              variant="primary"
-              type="submit"
-              onClick={onSaveAddressClicked}
-            >
+            <Button variant="primary" type="submit">
               Save Address
             </Button>
           </Form>

@@ -16,6 +16,19 @@ export const fetchAddresses = createAsyncThunk(
   }
 )
 
+export const postNewAddress = createAsyncThunk(
+  "addresses/postNewAddress",
+  async (address) => {
+    try {
+      console.log(address)
+      const response = await addressService.newAddress(address)
+      return response.data
+    } catch (error) {
+      console.log("error while saving address", error)
+    }
+  }
+)
+
 const addressesSlice = createSlice({
   name: "addresses",
   initialState,
@@ -45,6 +58,9 @@ const addressesSlice = createSlice({
         state.status = "failed"
         state.error = action.error.message
       })
+      .addCase(postNewAddress.fulfilled, (state, action) => {
+        state.cards.push(action.payload)
+      })
   },
 })
 
@@ -56,13 +72,6 @@ export const selectAllAddresses = (state) => state.addresses.cards
 // Make sure addressID is converted to number
 export const selectAddressById = (state, addressId) => {
   return state.addresses.cards.find((ad) => ad.address_id === +addressId)
-}
-
-export const postNewAddress = (body) => {
-  return async (dispatch, getState) => {
-    const response = await addressService.newAddress(body)
-    console.log(response)
-  }
 }
 
 // Export Reducer
