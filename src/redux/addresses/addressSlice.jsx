@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { addressService } from "./addressService"
+import { addressService } from "../../services/addressService"
 
 const initialState = { cards: [], status: "idle", error: null }
 

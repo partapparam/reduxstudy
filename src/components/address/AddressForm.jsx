@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form"
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/col"
-import { postNewAddress } from "./addressSlice"
+import { postNewAddress } from "../../redux/addresses/addressSlice"
 import { useDispatch, useSelector } from "react-redux"
 
 export const AddressForm = () => {
