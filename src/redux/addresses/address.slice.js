@@ -1,34 +1,7 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { addressService } from "../../services/addressService"
+import { createSlice } from "@reduxjs/toolkit"
+import { fetchAddresses, postAddress } from "./address.thunks"
 
 const initialState = { cards: [], status: "idle", error: null }
-
-export const fetchAddresses = createAsyncThunk(
-  "addresses/fetchAddresses",
-  async () => {
-    try {
-      const response = await addressService.getAllAddresses()
-      console.log(response.data)
-      return response.data.data
-    } catch (error) {
-      console.log("error fetching the results", error)
-    }
-  }
-)
-
-export const postNewAddress = createAsyncThunk(
-  "addresses/postNewAddress",
-  async (address) => {
-    try {
-      console.log(address)
-      const response = await addressService.newAddress(address)
-      return response.data
-    } catch (error) {
-      console.log("error while saving address", error)
-      throw new Error(error)
-    }
-  }
-)
 
 const addressesSlice = createSlice({
   name: "addresses",
@@ -59,10 +32,10 @@ const addressesSlice = createSlice({
         state.status = "failed"
         state.error = action.error.message
       })
-      .addCase(postNewAddress.fulfilled, (state, action) => {
+      .addCase(postAddress.fulfilled, (state, action) => {
         state.cards.push(action.payload)
       })
-      .addCase(postNewAddress.rejected, (state, action) => {
+      .addCase(postAddress.rejected, (state, action) => {
         state.status = "failed"
         console.log("the request failed")
       })
@@ -71,13 +44,6 @@ const addressesSlice = createSlice({
 
 export const { appendAddress, updateAddress, setAddresses } =
   addressesSlice.actions
-
-// Selectors
-export const selectAllAddresses = (state) => state.addresses.cards
-// Make sure addressID is converted to number
-export const selectAddressById = (state, addressId) => {
-  return state.addresses.cards.find((ad) => ad.address_id === +addressId)
-}
 
 // Export Reducer
 export default addressesSlice.reducer

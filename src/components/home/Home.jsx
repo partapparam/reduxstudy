@@ -1,7 +1,7 @@
 import React from "react"
 import Container from "react-bootstrap/Container"
 import { Outlet } from "react-router-dom"
-import { NavigationBar } from "../../common/NavigationBar"
+import { NavigationBar } from "./NavigationBar"
 
 export const Home = () => {
   return (

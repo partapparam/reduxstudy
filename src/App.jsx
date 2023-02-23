@@ -2,10 +2,10 @@ import logo from "./logo.svg"
 import "./App.css"
 import React from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { Home } from "./features/home/Home"
-import { AddressList } from "./features/address/AddressList"
-import { AddressCard } from "./features/address/AddressCard"
-import { AddressForm } from "./features/address/AddressForm"
+import { Home } from "./components/home/Home"
+import { AddressList } from "./components/address/AddressList"
+import { AddressCard } from "./components/address/AddressCard"
+import { AddressForm } from "./components/address/AddressForm"
 
 function App() {
   return (

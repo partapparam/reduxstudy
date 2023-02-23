@@ -3,7 +3,9 @@ import Container from "react-bootstrap/Container"
 import { Outlet, Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import { selectAllAddresses, fetchAddresses } from "./addressSlice"
+import { selectAllAddressesSelector } from "../../redux/addresses/address.selectors"
+import { fetchAddresses } from "../../redux/addresses/address.thunks"
+import { AddressCard } from "./AddressCard"
 
 export const AddressList = () => {
   const dispatch = useDispatch()
@@ -14,27 +16,26 @@ export const AddressList = () => {
       dispatch(fetchAddresses())
     }
   }, [addressesStatus, dispatch])
-  const addresses = useSelector(selectAllAddresses)
+  const addresses = useSelector(selectAllAddressesSelector)
 
-  const content =
-    addresses.length === 0 ? (
-      <h2>There is nothing to show here, search for an Address</h2>
-    ) : (
-      <ul>
-        {addresses.map((a) => {
-          return (
-            <li key={a.address_id}>
-              <Link to={a.address_id + "/card"}>{a.street_address}</Link>
-            </li>
-          )
-        })}
-      </ul>
-    )
+  const loadingContent = (
+    <div>
+      <h2>The content is loading</h2>
+    </div>
+  )
 
   return (
     <Container>
       <h3>This is the address list</h3>
-      <Container>{content}</Container>
+      <div>
+        {addresses.length === 0
+          ? loadingContent
+          : addresses.map((a) => (
+              <li key={a.address_id}>
+                <Link to={a.address_id + "/card"}>{a.street_address}</Link>
+              </li>
+            ))}
+      </div>
       <section>
         <Outlet />
       </section>

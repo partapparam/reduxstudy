@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form"
 import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/col"
-import { postNewAddress } from "../../redux/addresses/addressSlice"
+import { postAddress } from "../../redux/addresses/address.thunks"
 import { useDispatch, useSelector } from "react-redux"
 
 export const AddressForm = () => {
@@ -22,7 +22,7 @@ export const AddressForm = () => {
     if (canSave) {
       try {
         setAddRequestStatus("pending")
-        await dispatch(postNewAddress({ streetAddress, zipcode })).unwrap()
+        await dispatch(postAddress({ streetAddress, zipcode })).unwrap()
         console.log("this does not run")
         setStreetAddress("")
         setZipcode("")
