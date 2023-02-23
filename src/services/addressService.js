@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios"
+import axios from "axios"
 const baseURL = "http://localhost:3005/api/addresses"
 
 const getAllAddresses = () => {
