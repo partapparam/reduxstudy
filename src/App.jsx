@@ -6,6 +6,13 @@ import { Home } from "./components/home/Home"
 import { AddressList } from "./components/address/AddressList"
 import { AddressCard } from "./components/address/AddressCard"
 import { AddressForm } from "./components/address/AddressForm"
+import Radar from "radar-sdk-js"
+
+const publishableKey = "prj_test_pk_633a7aabf6b5f11c00ba2d1c4b896ec6d53d9c7d"
+
+Radar.initialize(publishableKey, {
+  cacheLocationMinutes: 30,
+})
 
 function App() {
   return (
